@@ -1,5 +1,6 @@
-main: appendMeMore dup dup2
+SHELL = bash -O extglob
 
+main: appendMeMore dup dup2 dupped_fd_verifier
 
 appendMeMore:clean
 	$(CC) appendMeMore.c -o appendMeMore
@@ -14,8 +15,9 @@ dup2:clean
 
 
 dupped_fd_verifier:clean
-
+	$(CC) dupped_fd_verifier.c -o dupped_fd_verifier
 
 
 clean:
-	${RM} appendMeMore dup dup2 dupped_fd_verifier
+	${RM} !(*.c|*.h|*.pdf|makefile)
+
