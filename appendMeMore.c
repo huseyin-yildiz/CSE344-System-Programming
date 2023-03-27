@@ -49,26 +49,24 @@ int main(int argc, char const *argv[])
         }
 
     
-    // Checking parameter x for lseek
-    if( x_param )
-        if(lseek(fd, 0, SEEK_END))
-            {
-                perror("lseek");
-                close(fd);
-                exit(EXIT_FAILURE);
-            }
-
+    
     
     
     // Writing the BYTE_TO_WRITE value to the file 
     for (int i = 0; i < num_bytes; i++)
+    {
+        // Checking parameter x for lseek
+        if( x_param )
+            lseek(fd, 0, SEEK_END);
+        
+
         if( write(fd, &BYTE_TO_WRITE, 1) != 1)
         {
             perror("Write Error");
             close(fd);
             exit(EXIT_FAILURE);
         }
-    
+    }
     
 
     
