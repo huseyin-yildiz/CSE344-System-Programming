@@ -1,8 +1,6 @@
-#include <fcntl.h>
-#include <errno.h>
-#include <unistd.h>
+#include "dup2.h"
 
-int dup2(int oldfd, int newfd){
+int mydup2(int oldfd, int newfd){
 
     extern int errno;
     int result;
@@ -27,32 +25,87 @@ int dup2(int oldfd, int newfd){
 
     result = fcntl(oldfd, F_DUPFD, newfd);
     
+	// if the result is error, then return same result
+  if (result < 0) 
+	  return result;
 	
-    if (result < 0) 
-		return result;
-	
-    else if (result != newfd) {
-		close(result); /* this is not the newfd we are looking for */
+  // If the result fd is not that we want, then we close it
+  else if (result != newfd) {
+		close(result); 
 		return -1;
 	}
-    else 
+  else    
 		return result;
 	
     
 }
 
 
-// tests
+
+// Tests
 int main(int argc, char const *argv[])
-{
+{   
     
-    dup2(0,0);
-    dup2(0,3);
-    dup2(0,1);
-    dup2(100,105);
-    dup2(100,1);
-    dup2(1,110);
+    // Test Case 1: Valid oldfd and newfd descriptor
+    
+    int fd = open("file.txt", O_CREAT | O_WRONLY, 0666);
+    int newfd = mydup2(fd, 5);
+    // Verify that the return value of dup2 is equal to newfd
+    assert(newfd == 5);
+    // Verify that the file descriptors refer to the same file
+    assert(fcntl(fd, F_GETFL) == fcntl(newfd, F_GETFL));
+    close(fd);
+
+
+
+    // Test Case 2: Invalid oldfd
+    
+    newfd = mydup2(100, 5);
+    // Verify that the return value of dup2 is -1
+    assert(newfd == -1);
+    // Verify that errno is set to EBADF
+    assert(errno == EBADF);
+
+   
+   
+    // Test Case 3: Special case where oldfd equals newfd and oldfd is valid
+   
+    fd = open("file.txt", O_CREAT | O_WRONLY, 0666);
+    newfd = mydup2(fd, fd);
+    // Verify that the return value of dup2 is equal to newfd
+    assert(newfd == fd);
+    // Verify that the file descriptors refer to the same file
+    assert(fcntl(fd, F_GETFL) == fcntl(newfd, F_GETFL));
+    close(fd);
+
+   
+
+    // Test Case 4: Special case where oldfd equals newfd and oldfd is invalid
+    
+    newfd = mydup2(100, 100);
+    // Verify that the return value of dup2 is -1
+    assert(newfd == -1);
+    // Verify that errno is set to EBADF
+    assert(errno == EBADF);
+    
+    
+    
+    // Test Case 5: Multiple calls to dup2 with same oldfd and different newfd
+    
+    fd = open("file.txt", O_CREAT | O_WRONLY, 0666);
+    int newfd1 = mydup2(fd, 5);
+    int newfd2 = mydup2(fd, 6);
+    // Verify that the return value of dup2 is equal to newfd
+    assert(newfd1 == 5 && newfd2 == 6);
+    // Verify that the file descriptors refer to the same file
+    assert(fcntl(fd, F_GETFL) == fcntl(newfd1, F_GETFL));
+    assert(fcntl(fd, F_GETFL) == fcntl(newfd2, F_GETFL));
+    // Verify that newfd1 and newfd2 are different
+    assert(newfd1 != newfd2);
+
+
+    // If there is no any error until here then the program can print this
+    printf("All cases tested with asserts. No any error in all cases \n");
 
     return 0;
 }
-

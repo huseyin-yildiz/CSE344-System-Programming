@@ -2,10 +2,7 @@
 // Author : Mehmet Huseyin YILDIZ
 // Date   : 26.02.2023
 
-#include <fcntl.h>
-#include <errno.h>
-#include <stdio.h>
-
+# include "dup.h"
 
 int dup(int oldfd){
 
@@ -27,39 +24,41 @@ int dup(int oldfd){
 }
 
 
-// Tests
-int main(int argc, char const *argv[])
-{   
-    int result;
+// // Tests
+// int main(int argc, char const *argv[])
+// {   
+//     int result;
 
-    result = dup(-5);
-    if(result == -1)
-        perror("FD_ERROR");
-    printf("Test with  -5 : %d\n", result);
+//     // Test Case 1 :Negative Invalid oldfd
+//     result = dup(-5);
+//     if(result == -1)
+//         perror("FD_ERROR");
+//     printf("Test with  -5 newfd: %d\n\n", result);
     
+//     // Test Case 2 :Valid oldfd (0)
+//     result = dup(0);
+//     if(result == -1)
+//         perror("FD_ERROR");
+//     printf("Test with   0 newfd: %d\n\n", result);
     
-    result = dup(0);
-    if(result == -1)
-        perror("FD_ERROR");
-    printf("Test with   0 : %d\n", result);
+//     // Test Case 3 :Valid oldfd (1)
+//     result = dup(1);
+//     if(result == -1)
+//         perror("FD_ERROR");
+//     printf("Test with   1 newfd: %d\n\n", result);
     
-    result = dup(1);
-    if(result == -1)
-        perror("FD_ERROR");
-    printf("Test with   1 : %d\n", result);
+//     // Test Case 4 :Valid oldfd (2)
+//     result = dup(2);
+//     if(result == -1)
+//         perror("FD_ERROR");
+//     printf("Test with   2 newfd: %d\n\n", result);
     
+//     // Test Case 5 :Positive invalid oldfd
+//     result = dup(100);
+//     if(result == -1)
+//         perror("FD_ERROR");
+//     printf("Test with 100 newfd: %d\n\n", result);
 
-    result = dup(2);
-    if(result == -1)
-        perror("FD_ERROR");
-    printf("Test with   2 : %d\n", result);
-    
 
-    result = dup(100);
-    if(result == -1)
-        perror("FD_ERROR");
-    printf("Test with 100 : %d\n", result);
-
-
-    return 0;
-}
+//     return 0;
+// }

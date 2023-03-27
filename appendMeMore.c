@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
     if(argc == 3)
         flags |= O_APPEND;
     
-    else if(argc == 4)
+    else if(argc == 4 && *argv[3] == 'x')
         x_param = true; 
     else
     {
@@ -39,7 +39,7 @@ int main(int argc, char const *argv[])
         fprintf(stderr, "The num_bytes must be an integer");
         exit(EXIT_FAILURE);
     }
-
+    
 
     // Opening File
     fd = open(file_name, flags, mode);
@@ -51,7 +51,7 @@ int main(int argc, char const *argv[])
     
     
     
-    
+
     // Writing the BYTE_TO_WRITE value to the file 
     for (int i = 0; i < num_bytes; i++)
     {

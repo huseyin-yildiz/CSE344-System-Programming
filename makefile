@@ -13,5 +13,9 @@ dup2:clean
 	$(CC) dup2.c -o dup2
 
 
+dupped_fd_verifier:clean
+
+
+
 clean:
-	${RM} appendMeMore dup dup2
+	${RM} appendMeMore dup dup2 dupped_fd_verifier
