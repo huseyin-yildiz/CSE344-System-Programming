@@ -1,0 +1,15 @@
+aa
+
+server: clean
+	$(CC) server.c -lpthread queue.c -w -o biboServer
+
+
+
+client: clean
+	$(CC) client.c -w -o biboClient
+
+
+clean:
+	${RM} biboServer biboClient
+
+
