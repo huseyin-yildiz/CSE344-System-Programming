@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "algorithm": "c",
+        "server_operations.h": "c",
+        "communication.h": "c",
+        "operations.h": "c",
+        "stdlib.h": "c",
+        "in.h": "c"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "queue.h": "c",
+        "typeinfo": "c",
+        "limits": "c",
+        "stat.h": "c"
+    }
+}
